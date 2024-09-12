@@ -29,7 +29,7 @@ using namespace std;
 #undef environ
 
 static void showInfo(){
-	const int major=(VERSION&0xffff)/100,minor=(VERSION&0xffff)%100;
+	const int major=(VERSION&0xffff)/1000,minor=(VERSION&0xffff)%1000;
 	cout<<"BlitzCC V"<<major<<"."<<minor<<endl;
 	cout<<"(C)opyright 2000-2003 Blitz Research Ltd"<<endl;
 }
@@ -49,7 +49,6 @@ static void showHelp(){
 	cout<<"+k         : dump keywords and syntax"<<endl;
 	cout<<"-v		  : version info"<<endl;
 	cout<<"-o exefile : generate executable"<<endl;
-
 }
 
 static void err( const string &t ){
@@ -122,7 +121,15 @@ static void dumpKeys( bool lang,bool mod,bool help ){
 }
 
 static string verstr( int ver ){
-	return itoa((ver&65535)/100)+"."+itoa((ver&65535)%100);
+	string b;
+	if(ver>>16==3) {
+		b="LibSGD";
+	}else if(ver>>16==2){
+		b="SoLoud";
+	}else if(ver>>16==1){
+		b="FMOD";
+	}
+	return itoa((ver&0xffff)/100)+"."+itoa((ver&0xffff)%100)+":"+b;
 }
 
 static void versInfo(){
@@ -130,11 +137,6 @@ static void versInfo(){
 	cout<<"Runtime version:"<<verstr(run_ver)<<endl;
 	cout<<"Debugger version:"<<verstr(dbg_ver)<<endl;
 	cout<<"Linker version:"<<verstr(lnk_ver)<<endl;
-}
-
-static void demoError(){
-	cout<<"Compiler can not be used standalone in demo version."<<endl;
-	exit(0);
 }
 
 int _cdecl main( int argc,char *argv[] ){

@@ -2,9 +2,14 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
-#define VERSION 1114
-#define VERSION_MAJOR 1
-#define VERSION_MINOR 114
-#define VERSION_NAME "V1.114"
+#define BASE_VERSION 1117
+
+#if BB_LIBSGD_ENABLED
+#define VERSION (0x30000 | BASE_VERSION)
+#elif BB_FMOD_ENABLED
+#define VERSION (0x10000 | BASE_VERSION)
+#else	// SOLOUD
+#define VERSION (0x20000 | BASE_VERSION)
+#endif
 
 #endif
